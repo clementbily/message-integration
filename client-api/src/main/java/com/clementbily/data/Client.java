@@ -1,13 +1,18 @@
 package com.clementbily.data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Client {
 
+    @NotEmpty
     private String name;
-    private int age;
+    @NotNull
+    private Integer age;
+    @NotEmpty
     private String email;
-    private long id;
+    private Long id;
 
     public String getName() {
         return name;
@@ -17,11 +22,11 @@ public class Client {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -33,11 +38,11 @@ public class Client {
         this.email = email;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

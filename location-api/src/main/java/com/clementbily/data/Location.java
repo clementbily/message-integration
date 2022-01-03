@@ -5,9 +5,9 @@ import java.util.Objects;
 public class Location {
 
     private String description;
-    private long id;
-    private double lon;
-    private double lat;
+    private Long id;
+    private Double lon;
+    private Double lat;
     private Client client;
 
     public String getDescription() {
@@ -18,27 +18,27 @@ public class Location {
         this.description = description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public double getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(double lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 

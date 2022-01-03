@@ -1,13 +1,19 @@
 package com.clementbily.data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class NewLocation {
 
+    @NotEmpty
     private String description;
-    private double lon;
-    private double lat;
-    private long clientId;
+    @NotNull
+    private Double lon;
+    @NotNull
+    private Double lat;
+    @NotNull
+    private Long clientId;
 
     public String getDescription() {
         return description;
@@ -18,27 +24,27 @@ public class NewLocation {
     }
 
 
-    public double getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(double lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public long getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(long clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 

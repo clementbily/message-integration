@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,10 +17,10 @@ public class LocationController {
     /**
      * the service
      */
-    private LocationService locationService;
+    private final LocationService locationService;
 
 
-    public LocationController(final LocationService locationService){
+    public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
 
@@ -30,7 +31,7 @@ public class LocationController {
      */
     @GetMapping
     public ResponseEntity<List<Location>> getLocations() {
-        final List<Location> locations = locationService.getLocations();
+        List<Location> locations = locationService.getLocations();
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }
 
@@ -38,12 +39,12 @@ public class LocationController {
      * Create a Location with the system.This end point accepts Client information in
      * the json format.It will create and send back the data to the REST Client.
      *
-     * @param location
+     * @param location the locqtion to create
      * @return newely created Location
      */
     @PostMapping()
-    public ResponseEntity<Location> addLocation(@RequestBody NewLocation location) {
-        final Location locationData = locationService.addLocation(location);
+    public ResponseEntity<Location> addLocation(@RequestBody @Valid NewLocation location) {
+        Location locationData = locationService.addLocation(location);
         return new ResponseEntity<>(locationData, HttpStatus.CREATED);
     }
 
@@ -52,7 +53,6 @@ public class LocationController {
      * end point will remove Client from the system if found.
      *
      * @param id
-     * @return
      */
     @DeleteMapping(value = "/location/{id}")
     public ResponseEntity<String> deleteLocation(@PathVariable Long id) {
@@ -61,14 +61,14 @@ public class LocationController {
     }
 
     /**
-     * Get the Client detail based on the id passed by the location API.
+     * Get the Location detail based on the id passed by the location API.
      *
-     * @param id
+     * @param id the location's id to get
      * @return Location detail
      */
     @GetMapping(value = "/location/{id}")
-    public ResponseEntity<Location> getClient(@PathVariable Long id) throws Exception {
-        final Location location = locationService.getLocation(id);
+    public ResponseEntity<Location> getLocation(@PathVariable Long id) throws Exception {
+        Location location = locationService.getLocation(id);
         return new ResponseEntity<>(location, HttpStatus.OK);
     }
 }

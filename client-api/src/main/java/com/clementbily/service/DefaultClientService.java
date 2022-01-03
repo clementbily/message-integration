@@ -4,11 +4,11 @@ import com.clementbily.dao.entity.ClientEntity;
 import com.clementbily.dao.entity.ClientRepository;
 import com.clementbily.data.Client;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -16,18 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DefaultClientService implements ClientService {
 
-    private ClientRepository clientRepository;
-    private MessageChannel messageChannel;
+    private final ClientRepository clientRepository;
+    private final MessageChannel messageChannel;
 
-    public DefaultClientService(final ClientRepository clientRepository, @Qualifier(value = "client")final MessageChannel messageChannel) {
-    this.messageChannel = messageChannel;
-    this.clientRepository = clientRepository;
+    public DefaultClientService(ClientRepository clientRepository, @Qualifier(value = "client") MessageChannel messageChannel) {
+        this.messageChannel = messageChannel;
+        this.clientRepository = clientRepository;
     }
 
     @Override
-    public Client createClient(final Client client) {
+    public Client createClient(Client client) {
 
         ClientEntity clientEntity = new ClientEntity();
         BeanUtils.copyProperties(client, clientEntity);
@@ -40,9 +41,9 @@ public class DefaultClientService implements ClientService {
 
     @Override
     public List<Client> getClients() {
-        final List<ClientEntity> clients = new LinkedList<>();
+        List<ClientEntity> clients = new LinkedList<>();
         clientRepository.findAll().forEach(clients::add);
-        final List<Client> clientList = new ArrayList<>();
+        List<Client> clientList = new ArrayList<>();
         for (ClientEntity ClientEntity : clients) {
             Client client = new Client();
             BeanUtils.copyProperties(ClientEntity, client);
@@ -53,8 +54,8 @@ public class DefaultClientService implements ClientService {
 
     @Override
     public Client getClient(Long id) {
-        final Optional<ClientEntity> clientEntity = clientRepository.findById(id);
-        final Client clientData = new Client();
+        Optional<ClientEntity> clientEntity = clientRepository.findById(id);
+        Client clientData = new Client();
         BeanUtils.copyProperties(clientEntity.get(), clientData);
         return clientData;
     }

@@ -6,20 +6,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/clients")
 public class ClientController {
 
-    private ClientService clientService;
+    private final ClientService clientService;
 
-    public ClientController(final ClientService clientService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
     /**
      * Get all the Client available in the underlying system
+     *
      * @return list of Clients
      */
     @GetMapping
@@ -31,18 +33,20 @@ public class ClientController {
     /**
      * Create a Client with the system.This end point accepts Client information in
      * the json format.It will create and send back the data to the REST Client.
+     *
      * @param client
      * @return newely created Client
      */
     @PostMapping()
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
-        final Client ClientData = clientService.createClient(client);
+    public ResponseEntity<Client> createClient(@RequestBody @Valid Client client) {
+        Client ClientData = clientService.createClient(client);
         return new ResponseEntity<>(ClientData, HttpStatus.CREATED);
     }
 
     /**
      * Deleted the Client from the system.client will pass the ID for the Client and this
      * end point will remove Client from the system if found.
+     *
      * @param id
      * @return
      */
@@ -54,6 +58,7 @@ public class ClientController {
 
     /**
      * Get the Client detail based on the id passed by the client API.
+     *
      * @param id
      * @return Client detail
      */

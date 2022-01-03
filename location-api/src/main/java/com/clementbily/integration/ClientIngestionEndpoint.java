@@ -12,17 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientIngestionEndpoint {
 
-    public ClientIngestionEndpoint(final ClientRepository clientRepository ) {
+    private final ClientRepository clientRepository;
+    private final  ModelMapper mapper = new ModelMapper();
+    public ClientIngestionEndpoint(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
-    private ClientRepository clientRepository;
-    private final ModelMapper mapper = new ModelMapper();
     @EndpointId("clientIngestor")
     @ServiceActivator(inputChannel = "client")
     public void addClient(Message<Client> message) {
-        final var client = message.getPayload();
-        final var clientEntity = new ClientEntity();
+        Client client = message.getPayload();
+        var clientEntity = new ClientEntity();
         mapper.map(client, clientEntity);
         clientRepository.save(clientEntity);
     }
